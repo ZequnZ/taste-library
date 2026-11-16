@@ -1,0 +1,11 @@
+entries/*/index.html
+examples/letter-*.html
+examples/line-*.html
+public/entries/
+node_modules/
+dist/
+.verification/
+test-results/
+playwright-report/
+.taste-skill/
+.DS_Store

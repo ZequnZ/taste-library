@@ -1,0 +1,51 @@
+{
+  "categories": [
+    { "id": "typography", "title": "Typography" },
+    { "id": "color", "title": "Color & texture" },
+    { "id": "layout", "title": "Layout & composition" },
+    { "id": "components", "title": "Components & navigation" },
+    { "id": "motion", "title": "Motion & interaction" },
+    { "id": "illustration", "title": "Illustration & imagery" },
+    { "id": "presentations", "title": "Presentations" }
+  ],
+  "entries": [
+    {
+      "id": "letter-doodle",
+      "title": "Doodle shuffle",
+      "category": "motion",
+      "kind": "element",
+      "description": "Letters jump to uneven heights and tilt.",
+      "study": "motion", "variant": "doodle",
+      "related": ["letter-wave", "line-wavy"],
+      "example": "examples/letter-doodle.html"
+    },
+    {
+      "id": "line-wavy",
+      "title": "Wavy flow",
+      "category": "motion",
+      "kind": "element",
+      "description": "A dashed wave keeps moving.",
+      "study": "line", "variant": "wavy",
+      "related": ["line-stitch", "letter-doodle"],
+      "example": "examples/line-wavy.html"
+    },
+    { "id": "letter-wave", "title": "Wave", "category": "motion", "kind": "element", "description": "A gentle wave keeps running through the letters.", "study": "motion", "variant": "wave", "related": ["letter-wobble", "line-wavy"], "example": "examples/letter-wave.html" },
+    { "id": "letter-jelly", "title": "Jelly", "category": "motion", "kind": "element", "description": "Letters squash and stretch once, in sequence.", "study": "motion", "variant": "jelly", "related": ["letter-hop", "letter-grow"], "example": "examples/letter-jelly.html" },
+    { "id": "letter-hop", "title": "Hop", "category": "motion", "kind": "element", "description": "Letters hop in turn, like keys being pressed.", "study": "motion", "variant": "hop", "related": ["letter-jelly", "letter-grow"], "example": "examples/letter-hop.html" },
+    { "id": "letter-spread", "title": "Spread", "category": "motion", "kind": "element", "description": "The word tilts and the letters fan apart.", "study": "motion", "variant": "spread", "related": ["letter-doodle", "letter-grow"], "example": "examples/letter-spread.html" },
+    { "id": "letter-wobble", "title": "Wobble", "category": "motion", "kind": "element", "description": "Letters keep rocking back and forth.", "study": "motion", "variant": "wobble", "related": ["letter-wave", "letter-doodle"], "example": "examples/letter-wobble.html" },
+    { "id": "letter-grow", "title": "Grow", "category": "motion", "kind": "element", "description": "Letters puff up and stay slightly bigger.", "study": "motion", "variant": "grow", "related": ["letter-jelly", "letter-spread"], "example": "examples/letter-grow.html" },
+    { "id": "line-stitch", "title": "Stitch", "category": "motion", "kind": "element", "description": "Straight dashes march to the right.", "study": "line", "variant": "stitch", "related": ["line-wavy", "line-beads"], "example": "examples/line-stitch.html" },
+    { "id": "line-beads", "title": "Beads", "category": "motion", "kind": "element", "description": "Round dots travel along a wave.", "study": "line", "variant": "beads", "related": ["line-wavy", "line-stitch"], "example": "examples/line-beads.html" },
+    { "id": "line-drawdash", "title": "Draw-in dashes", "category": "motion", "kind": "element", "description": "A dashed squiggle draws in, then keeps flowing.", "study": "line", "variant": "drawdash", "related": ["line-squiggle", "line-wavy"], "example": "examples/line-drawdash.html" },
+    { "id": "line-squiggle", "title": "Pen squiggle", "category": "motion", "kind": "element", "description": "A solid pen line draws in once; no dashes.", "study": "line", "variant": "squiggle", "related": ["line-drawdash", "line-loop"], "example": "examples/line-squiggle.html" },
+    { "id": "line-loop", "title": "Loop flourish", "category": "motion", "kind": "element", "description": "A pen underline ends with a small loop.", "study": "line", "variant": "loop", "related": ["line-squiggle", "line-drawdash"], "example": "examples/line-loop.html" }
+  ],
+  "demonstrations": [
+    { "id": "quiet-editorial", "title": "Quiet editorial", "category": "layout", "kind": "family", "description": "A complete page study: serif typography, olive tones, generous space.", "related": ["editorial-type", "tonal-palette"], "example": "examples/quiet-editorial.html" },
+    { "id": "lift-button", "title": "Lift button", "category": "motion", "kind": "element", "description": "A tactile hover with a gentle lift and a distinct pressed state.", "related": [], "example": "examples/lift-button.html" },
+    { "id": "orbit-toggle", "title": "Orbit toggle", "category": "motion", "kind": "element", "description": "A small switch with an expressive, spring-shaped transition.", "related": [], "example": "examples/orbit-toggle.html" },
+    { "id": "editorial-type", "title": "Editorial type", "category": "typography", "kind": "element", "description": "An italic serif heading paired with restrained supporting text.", "related": ["quiet-editorial"], "example": "examples/editorial-type.html" },
+    { "id": "tonal-palette", "title": "Olive tonal palette", "category": "color", "kind": "element", "description": "A single hue in five tones. Select a swatch to inspect its value.", "related": ["quiet-editorial"], "example": "examples/tonal-palette.html" }
+  ]
+}

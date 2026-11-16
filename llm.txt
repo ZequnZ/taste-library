@@ -1,0 +1,46 @@
+# Taste Library
+
+Confirmed collection: 13 entries
+Demonstrations are unapproved scaffold examples for reviewing the gallery. They establish no user preferences.
+
+Read collection.json for the authoritative entry and category metadata.
+Read skills/taste-library/SKILL.md for the design and save workflow.
+Read docs/authoring.md before adding an entry.
+The user commits and pushes personally. Request save confirmation before collection updates.
+
+## Categories
+- Typography
+- Color & texture
+- Layout & composition
+- Components & navigation
+- Motion & interaction
+- Illustration & imagery
+- Presentations
+
+## Confirmed collection
+- Doodle shuffle: examples/letter-doodle.html; letter motion. Documentation: entries/letter-doodle.md.
+- Wave: examples/letter-wave.html; letter motion. Documentation: entries/letter-wave.md.
+- Jelly: examples/letter-jelly.html; letter motion. Documentation: entries/letter-jelly.md.
+- Hop: examples/letter-hop.html; letter motion. Documentation: entries/letter-hop.md.
+- Spread: examples/letter-spread.html; letter motion. Documentation: entries/letter-spread.md.
+- Wobble: examples/letter-wobble.html; letter motion. Documentation: entries/letter-wobble.md.
+- Grow: examples/letter-grow.html; letter motion. Documentation: entries/letter-grow.md.
+- Wavy flow: examples/line-wavy.html; dashed underline. Documentation: entries/line-wavy.md.
+- Stitch: examples/line-stitch.html; dashed underline. Documentation: entries/line-stitch.md.
+- Beads: examples/line-beads.html; dotted underline. Documentation: entries/line-beads.md.
+- Draw-in dashes: examples/line-drawdash.html; dashed underline. Documentation: entries/line-drawdash.md.
+- Pen squiggle: examples/line-squiggle.html; solid underline, not dashed. Documentation: entries/line-squiggle.md.
+- Loop flourish: examples/line-loop.html; solid underline, not dashed. Documentation: entries/line-loop.md.
+
+These are individually browsable treatments, split at the user's request from the existing Letter motion and Dashed line material. Original grouped sources remain in examples/idea-motion.html and examples/idea-line.html; provenance is in entries/letter-motion.md and entries/dashed-line.md. No additional variant preference is inferred.
+
+Each saved example is authorized own material. Original source: /Users/zequnzhou/Desktop/Code/myspace/personal/mysite2/docs/idea-taste-preview.html. No individual variant preference confirmed. Fredoka SemiBold is embedded under the SIL OFL 1.1; license: assets/fonts/Fredoka-OFL.txt. Official source: https://github.com/google/fonts/tree/main/ofl/fredoka.
+
+## Demonstration examples
+- Quiet editorial: examples/quiet-editorial.html; whole visual family; related editorial-type and tonal-palette.
+- Lift button: examples/lift-button.html; motion and interaction.
+- Orbit toggle: examples/orbit-toggle.html; motion and interaction.
+- Editorial type: examples/editorial-type.html; typography; related quiet-editorial.
+- Olive tonal palette: examples/tonal-palette.html; color and texture; related quiet-editorial.
+
+All examples are self-contained HTML/CSS with inline JavaScript where needed. Open directly in a browser, or copy their complete source. Preview the category gallery with npm run dev.
