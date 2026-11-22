@@ -1,0 +1,139 @@
+{
+  "families": [
+    { "id": "letter", "title": "Letter motion" },
+    { "id": "underline", "title": "Underline" }
+  ],
+  "kinds": [
+    { "id": "html", "title": "HTML + CSS" },
+    { "id": "react", "title": "React component" }
+  ],
+  "requires": {
+    "font": "Fredoka SemiBold (600)",
+    "file": "public/fonts/fredoka-600.woff2",
+    "license": "public/fonts/Fredoka-OFL.txt"
+  },
+  "origin": {
+    "source": "idea-taste-preview.html, a private design preview for the author's personal site",
+    "context": "Idea navigation link on the author's personal site.",
+    "permission": "Author's own material; reuse authorized for this library."
+  },
+  "entries": [
+    {
+      "id": "letter-doodle",
+      "title": "Doodle shuffle",
+      "family": "letter",
+      "kind": "html",
+      "description": "Letters jump to uneven heights and tilt.",
+      "related": ["letter-wave", "line-wavy"],
+      "files": ["elements/letter-doodle/letter-doodle.html"]
+    },
+    {
+      "id": "letter-wave",
+      "title": "Wave",
+      "family": "letter",
+      "kind": "html",
+      "description": "A gentle wave keeps running through the letters.",
+      "related": ["letter-wobble", "line-wavy"],
+      "files": ["elements/letter-wave/letter-wave.html"]
+    },
+    {
+      "id": "letter-jelly",
+      "title": "Jelly",
+      "family": "letter",
+      "kind": "html",
+      "description": "Letters squash and stretch once, in sequence.",
+      "related": ["letter-hop", "letter-grow"],
+      "files": ["elements/letter-jelly/letter-jelly.html"]
+    },
+    {
+      "id": "letter-hop",
+      "title": "Hop",
+      "family": "letter",
+      "kind": "html",
+      "description": "Letters hop in turn, like keys being pressed.",
+      "related": ["letter-jelly", "letter-grow"],
+      "files": ["elements/letter-hop/letter-hop.html"]
+    },
+    {
+      "id": "letter-spread",
+      "title": "Spread",
+      "family": "letter",
+      "kind": "html",
+      "description": "The word tilts and the letters fan apart.",
+      "related": ["letter-doodle", "letter-grow"],
+      "files": ["elements/letter-spread/letter-spread.html"]
+    },
+    {
+      "id": "letter-wobble",
+      "title": "Wobble",
+      "family": "letter",
+      "kind": "html",
+      "description": "Letters keep rocking back and forth.",
+      "related": ["letter-wave", "letter-doodle"],
+      "files": ["elements/letter-wobble/letter-wobble.html"]
+    },
+    {
+      "id": "letter-grow",
+      "title": "Grow",
+      "family": "letter",
+      "kind": "html",
+      "description": "Letters puff up and stay slightly bigger.",
+      "related": ["letter-jelly", "letter-spread"],
+      "files": ["elements/letter-grow/letter-grow.html"]
+    },
+    {
+      "id": "line-wavy",
+      "title": "Wavy flow",
+      "family": "underline",
+      "kind": "html",
+      "description": "A dashed wave keeps moving.",
+      "related": ["line-stitch", "letter-doodle"],
+      "files": ["elements/line-wavy/line-wavy.html"]
+    },
+    {
+      "id": "line-stitch",
+      "title": "Stitch",
+      "family": "underline",
+      "kind": "html",
+      "description": "Straight dashes march to the right.",
+      "related": ["line-wavy", "line-beads"],
+      "files": ["elements/line-stitch/line-stitch.html"]
+    },
+    {
+      "id": "line-beads",
+      "title": "Beads",
+      "family": "underline",
+      "kind": "html",
+      "description": "Round dots travel along a wave.",
+      "related": ["line-wavy", "line-stitch"],
+      "files": ["elements/line-beads/line-beads.html"]
+    },
+    {
+      "id": "line-drawdash",
+      "title": "Draw-in dashes",
+      "family": "underline",
+      "kind": "html",
+      "description": "A dashed squiggle draws in, then keeps flowing.",
+      "related": ["line-squiggle", "line-wavy"],
+      "files": ["elements/line-drawdash/line-drawdash.html"]
+    },
+    {
+      "id": "line-squiggle",
+      "title": "Pen squiggle",
+      "family": "underline",
+      "kind": "html",
+      "description": "A solid pen line draws in once; no dashes.",
+      "related": ["line-drawdash", "line-loop"],
+      "files": ["elements/line-squiggle/line-squiggle.html"]
+    },
+    {
+      "id": "line-loop",
+      "title": "Loop flourish",
+      "family": "underline",
+      "kind": "html",
+      "description": "A pen underline ends with a small loop.",
+      "related": ["line-squiggle", "line-drawdash"],
+      "files": ["elements/line-loop/line-loop.html"]
+    }
+  ]
+}

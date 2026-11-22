@@ -1,0 +1,8 @@
+node_modules/
+dist/
+.vite/
+.verification/
+test-results/
+playwright-report/
+.taste-skill/
+.DS_Store

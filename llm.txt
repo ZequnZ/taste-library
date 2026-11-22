@@ -1,0 +1,50 @@
+# Taste Library
+
+> A collection of small interaction details. Each element is copyable source: either one self-contained HTML + CSS file, or a React component with a plain CSS file.
+
+Every element lives in its own folder, `elements/<id>/`. Links below are relative to this file, so they resolve both in the repository (this file sits at the root) and on the site (served at `/llm.txt`, files under `/elements/`). Authoritative metadata (family, kind, files, related entries, origin) is in `collection.json` at the repository root.
+
+## Kinds
+
+### HTML + CSS (`kind: "html"`)
+
+- One file, `elements/<id>/<id>.html`, no JavaScript.
+- Markup: one `<a class="idea idea-<variant>">`. Letter motions pre-split the word into `<span style="--i:N">` for per-letter delays.
+- Trigger: `:hover` and `:focus-visible` on the link. `prefers-reduced-motion` shows the final state without animation.
+
+### React component (`kind: "react"`)
+
+- `elements/<id>/<ComponentName>.jsx` (default export) plus an optional `<ComponentName>.css` that the component imports.
+- Renders with no required props. An optional `active` prop forces the active state; hover and focus work without it.
+- Classes are prefixed with the entry id. Only `react` and files in the same folder are imported, unless the entry lists `dependencies`.
+- Respects `prefers-reduced-motion` in both CSS and any JavaScript-driven motion.
+
+### Shared
+
+- Accent: set `--accent` on any ancestor; default `#b88343`. Text colour inherits.
+- Font: Fredoka SemiBold (600), falling back to the system sans-serif. File: `/fonts/fredoka-600.woff2` on the site, `public/fonts/fredoka-600.woff2` in the repository. Licence: SIL OFL 1.1 (`Fredoka-OFL.txt` alongside). Upstream: https://github.com/google/fonts/tree/main/ofl/fredoka
+
+## Letter motion
+
+- [Doodle shuffle](elements/letter-doodle/letter-doodle.html): HTML + CSS. Letters jump to uneven heights and tilt.
+- [Wave](elements/letter-wave/letter-wave.html): HTML + CSS. A gentle wave keeps running through the letters.
+- [Jelly](elements/letter-jelly/letter-jelly.html): HTML + CSS. Letters squash and stretch once, in sequence.
+- [Hop](elements/letter-hop/letter-hop.html): HTML + CSS. Letters hop in turn, like keys being pressed.
+- [Spread](elements/letter-spread/letter-spread.html): HTML + CSS. The word tilts and the letters fan apart.
+- [Wobble](elements/letter-wobble/letter-wobble.html): HTML + CSS. Letters keep rocking back and forth.
+- [Grow](elements/letter-grow/letter-grow.html): HTML + CSS. Letters puff up and stay slightly bigger.
+
+## Underline
+
+- [Wavy flow](elements/line-wavy/line-wavy.html): HTML + CSS. A dashed wave keeps moving.
+- [Stitch](elements/line-stitch/line-stitch.html): HTML + CSS. Straight dashes march to the right.
+- [Beads](elements/line-beads/line-beads.html): HTML + CSS. Round dots travel along a wave.
+- [Draw-in dashes](elements/line-drawdash/line-drawdash.html): HTML + CSS. A dashed squiggle draws in, then keeps flowing.
+- [Pen squiggle](elements/line-squiggle/line-squiggle.html): HTML + CSS. A solid pen line draws in once; no dashes.
+- [Loop flourish](elements/line-loop/line-loop.html): HTML + CSS. A pen underline ends with a small loop.
+
+## Origin
+
+- Source: the "Idea" navigation link on the author's personal site.
+- Permission: the author's own material; reuse authorized for this library.
+- Status: saved as material to explore; no individual variant is a confirmed preference.

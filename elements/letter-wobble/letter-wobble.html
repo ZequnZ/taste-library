@@ -1,0 +1,11 @@
+<a class="idea idea-wobble" href="#" aria-label="Idea"><span style="--i:0">I</span><span style="--i:1">d</span><span style="--i:2">e</span><span style="--i:3">a</span></a>
+
+<style>
+.idea { display: inline-block; font: 600 36px/1 Fredoka, sans-serif; color: inherit; text-decoration: none; transition: color .3s; }
+.idea:is(:hover, :focus-visible) { color: var(--accent, #b88343); }
+.idea span { display: inline-block; transform-origin: 50% 100%; }
+.idea-wobble:is(:hover, :focus-visible) span { animation: idea-wobble .36s ease-in-out calc(var(--i) * -90ms) infinite alternate; }
+.idea-wobble:is(:hover, :focus-visible) span:nth-child(even) { animation-direction: alternate-reverse; }
+@keyframes idea-wobble { from { transform: rotate(-7deg); } to { transform: rotate(7deg); } }
+@media (prefers-reduced-motion: reduce) { .idea, .idea span { animation: none !important; transition: none !important; } }
+</style>

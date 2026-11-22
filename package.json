@@ -1,0 +1,16 @@
+{
+  "name": "taste-library",
+  "version": "1.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vite --host 127.0.0.1 --port 4173 --strictPort",
+    "build": "node scripts/validate.mjs && vite build",
+    "validate": "node scripts/validate.mjs",
+    "test": "node scripts/validate.mjs && playwright test"
+  },
+  "devDependencies": {
+    "@playwright/test": "^1.56.0",
+    "vite": "^6.4.1"
+  }
+}

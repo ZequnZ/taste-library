@@ -1,0 +1,10 @@
+<a class="idea idea-wave" href="#" aria-label="Idea"><span style="--i:0">I</span><span style="--i:1">d</span><span style="--i:2">e</span><span style="--i:3">a</span></a>
+
+<style>
+.idea { display: inline-block; font: 600 36px/1 Fredoka, sans-serif; color: inherit; text-decoration: none; transition: color .3s; }
+.idea:is(:hover, :focus-visible) { color: var(--accent, #b88343); }
+.idea span { display: inline-block; transform-origin: 50% 100%; }
+.idea-wave:is(:hover, :focus-visible) span { animation: idea-wave .9s ease-in-out calc(var(--i) * 110ms) infinite; }
+@keyframes idea-wave { 50% { transform: translateY(-5px); } }
+@media (prefers-reduced-motion: reduce) { .idea, .idea span { animation: none !important; transition: none !important; } }
+</style>
