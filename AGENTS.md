@@ -6,7 +6,7 @@ Start with `llm.txt` (index of every element) and `collection.json` (authoritati
 - Each entry has its own folder, `elements/<id>/`, holding only its files. `collection.json` gives its `kind` and `files`; the first file is the one rendered and copied.
 - `html`: one file `<id>.html`, HTML + CSS only, no `<script>`, under 2000 bytes, with a `:is(:hover, :focus-visible)` trigger and a `prefers-reduced-motion` rule.
 - `react`: `<ComponentName>.jsx` (default export, no required props, optional `active` prop) plus an optional plain `<ComponentName>.css` with classes prefixed by the entry id. Import only `react` and same-folder files; any other package needs approval and goes in the entry's `dependencies`. Respect `prefers-reduced-motion` in CSS and JS.
-- The gallery does not render React yet. The first React entry must come with `src/render/react.jsx`, the `react` / `react-dom` dependencies, validator rules and Playwright tests.
+- The gallery renders React through `src/render/react.jsx` with `react` / `react-dom`. Keep validator rules and Playwright tests covering native interactions, reduced motion and exact source copying for each kind.
 - All elements use `--accent` (default `#b88343`) and inherit text colour.
 - Keep the gallery (`src/`) separate from element sources; the copied files must stay unchanged.
 

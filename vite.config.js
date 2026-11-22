@@ -20,8 +20,9 @@ function publishSources() {
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         const [path, query] = req.url.split('?');
-        // Queried requests (?raw, ?import) are Vite module requests; leave them to Vite.
-        if (query !== undefined || !(path === '/llm.txt' || path.startsWith('/elements/'))) return next();
+        // Queried requests and script-module fetches need Vite compilation.
+        // Direct navigation / fetch still returns unchanged source (including JSX/CSS).
+        if (query !== undefined || req.headers['sec-fetch-dest'] === 'script' || !(path === '/llm.txt' || path.startsWith('/elements/'))) return next();
         const file = resolve(root, decodeURIComponent(path).slice(1));
         if (relative(root, file).startsWith('..')) return next();
         try {
@@ -39,4 +40,7 @@ function publishSources() {
   };
 }
 
-export default defineConfig({ plugins: [publishSources()] });
+export default defineConfig({
+  plugins: [publishSources()],
+  optimizeDeps: { include: ['react', 'react-dom/client'] },
+});

@@ -15,9 +15,10 @@ Every element lives in its own folder, `elements/<id>/`. Links below are relativ
 ### React component (`kind: "react"`)
 
 - `elements/<id>/<ComponentName>.jsx` (default export) plus an optional `<ComponentName>.css` that the component imports.
-- Renders with no required props. An optional `active` prop forces the active state; hover and focus work without it.
+- Renders with no required props. An optional `active` prop forces the preview state. Without it, each component uses its native interaction (for example, click or keyboard activation for a switch).
 - Classes are prefixed with the entry id. Only `react` and files in the same folder are imported, unless the entry lists `dependencies`.
 - Respects `prefers-reduced-motion` in both CSS and any JavaScript-driven motion.
+- Optional `playground` metadata in `collection.json` describes live range, select and boolean controls on the detail page. The gallery shows prop names, reset and a copyable usage example containing only changed props; demo-only controls never enter the copied usage or element sources.
 
 ### Shared
 
@@ -42,6 +43,10 @@ Every element lives in its own folder, `elements/<id>/`. Links below are relativ
 - [Draw-in dashes](elements/line-drawdash/line-drawdash.html): HTML + CSS. A dashed squiggle draws in, then keeps flowing.
 - [Pen squiggle](elements/line-squiggle/line-squiggle.html): HTML + CSS. A solid pen line draws in once; no dashes.
 - [Loop flourish](elements/line-loop/line-loop.html): HTML + CSS. A pen underline ends with a small loop.
+
+## Components
+
+- [Orbit theme toggle](elements/orbit-theme-toggle/OrbitThemeToggle.jsx): React component. Sun and moon share an orbit; click to switch or reverse mid-spin. Copy its companion [CSS](elements/orbit-theme-toggle/OrbitThemeToggle.css) too. No required props; optional controlled `isDark` / `onChange`, sizing and motion props. Uses bundled Lucide icons with ISC and Feather MIT notices. Source: author-supplied agent exploration; reuse authorized for this library. Saved as material to explore, not a confirmed preference.
 
 ## Origin
 

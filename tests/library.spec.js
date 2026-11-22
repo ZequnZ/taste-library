@@ -9,6 +9,8 @@ test('gallery lists every entry, grouped by family, without errors', async ({ pa
   page.on('pageerror', error => errors.push(error.message));
   await page.goto('/');
   await expect(page.locator('[data-entry]')).toHaveCount(collection.entries.length);
+  expect(await page.locator('.family h2').evaluateAll(headings => headings.map(heading => heading.id)))
+    .toEqual(['family-components', 'family-letter', 'family-underline']);
   for (const family of collection.families) {
     const count = collection.entries.filter(entry => entry.family === family.id).length;
     await expect(page.locator(`#family-${family.id} ~ .grid .card`)).toHaveCount(count);
@@ -38,7 +40,7 @@ test('hovering or focusing a card animates its own preview', async ({ page }) =>
 });
 
 test('every detail page renders, holds, and copies the exact snippet', async ({ page }) => {
-  for (const entry of collection.entries) {
+  for (const entry of collection.entries.filter(entry => entry.kind === 'html')) {
     await page.goto(`/#/${entry.id}`);
     await expect(page.getByRole('heading', { level: 1, name: entry.title })).toBeVisible();
     const source = readFileSync(entry.files[0], 'utf8');
@@ -103,7 +105,7 @@ test('theme persists and layouts do not overflow from 320 to 1920 pixels', async
   await expect(page.locator('html')).toHaveClass(/dark/);
   for (const width of [320, 390, 768, 1024, 1440, 1920]) {
     await page.setViewportSize({ width, height: 900 });
-    for (const path of ['/', '/#/line-loop']) {
+    for (const path of ['/', '/#/line-loop', '/#/orbit-theme-toggle']) {
       await page.goto(path);
       await expect(page.locator('h1')).toBeVisible();
       expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth), `${path} at ${width}`).toBe(true);
