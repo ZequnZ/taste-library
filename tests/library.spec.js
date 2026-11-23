@@ -100,9 +100,13 @@ test('llm.txt is served and every link in it resolves to the exact repository fi
 
 test('theme persists and layouts do not overflow from 320 to 1920 pixels', async ({ page }) => {
   await page.goto('/');
-  await page.locator('#theme').click();
+  const theme = page.getByRole('switch', { name: 'Toggle site theme' });
+  await expect(theme).toHaveAttribute('aria-checked', 'false');
+  await theme.click();
+  await expect(theme).toHaveAttribute('aria-checked', 'true');
   await page.reload();
   await expect(page.locator('html')).toHaveClass(/dark/);
+  await expect(page.getByRole('switch', { name: 'Toggle site theme' })).toHaveAttribute('aria-checked', 'true');
   for (const width of [320, 390, 768, 1024, 1440, 1920]) {
     await page.setViewportSize({ width, height: 900 });
     for (const path of ['/', '/#/line-loop', '/#/orbit-theme-toggle']) {

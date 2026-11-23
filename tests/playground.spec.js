@@ -113,12 +113,12 @@ test('live controls preserve native state, tabs and Hold; reset restores props w
   await expect(toggle).toHaveAttribute('aria-checked', 'true');
   expect(await toggle.evaluate(el => el === window.originalToggle)).toBe(true);
   expect((await toggle.boundingBox()).width).toBe(96);
-  await expect(page.locator('.orbit-theme-toggle-icon svg').first()).toHaveAttribute('width', '40');
-  expect(await page.locator('.orbit-theme-toggle-pivot').evaluate(el => el.style.transform)).toBe('rotate(-90deg)');
-  expect(await page.locator('.orbit-theme-toggle-position').first().evaluate(el => el.style.transform)).toBe('rotate(0deg) translateY(-56px)');
+  await expect(toggle.locator('.orbit-theme-toggle-icon svg').first()).toHaveAttribute('width', '40');
+  expect(await toggle.locator('.orbit-theme-toggle-pivot').evaluate(el => el.style.transform)).toBe('rotate(-90deg)');
+  expect(await toggle.locator('.orbit-theme-toggle-position').first().evaluate(el => el.style.transform)).toBe('rotate(0deg) translateY(-56px)');
   expect(await toggle.evaluate(el => getComputedStyle(el).getPropertyValue('--orbit-theme-toggle-easing'))).toBe('linear');
-  expect(await page.locator('.orbit-theme-toggle-icon').last().evaluate(el => el.style.opacity)).toBe('1');
-  expect(await page.locator('.orbit-theme-toggle-icon').first().evaluate(el => el.style.transform)).toBe('translate(-50%, -50%) rotate(0deg)');
+  expect(await toggle.locator('.orbit-theme-toggle-icon').last().evaluate(el => el.style.opacity)).toBe('1');
+  expect(await toggle.locator('.orbit-theme-toggle-icon').first().evaluate(el => el.style.transform)).toBe('translate(-50%, -50%) rotate(0deg)');
   await expect(usageIn(page)).toContainText('duration={1200}');
   await expect(usageIn(page)).toContainText('keepUpright={false}');
   await page.getByRole('tab', { name: 'Code', exact: true }).click();
@@ -172,13 +172,13 @@ test('motion controls honor reduced motion live and all responsive controls stay
   await page.goto('/#/orbit-theme-toggle');
   await moveRange(page, 'duration', 2000);
   await toggleIn(page).click();
-  await expect.poll(() => page.locator('.orbit-theme-toggle-pivot').evaluate(el => getComputedStyle(el).transitionDuration)).toBe('2s');
+  await expect.poll(() => toggleIn(page).locator('.orbit-theme-toggle-pivot').evaluate(el => getComputedStyle(el).transitionDuration)).toBe('2s');
   await page.emulateMedia({ reducedMotion: 'reduce' });
   await expect.poll(() => toggleIn(page).evaluate(el => el.style.getPropertyValue('--orbit-theme-toggle-duration'))).toBe('0ms');
   await moveRange(page, 'duration', 3000);
   await expect.poll(() => toggleIn(page).evaluate(el => el.style.getPropertyValue('--orbit-theme-toggle-duration'))).toBe('0ms');
   await page.emulateMedia({ reducedMotion: 'no-preference' });
-  await expect.poll(() => page.locator('.orbit-theme-toggle-pivot').evaluate(el => getComputedStyle(el).transitionDuration)).toBe('3s');
+  await expect.poll(() => toggleIn(page).locator('.orbit-theme-toggle-pivot').evaluate(el => getComputedStyle(el).transitionDuration)).toBe('3s');
   for (const width of [320, 390, 768, 1024, 1440, 1920]) {
     await page.setViewportSize({ width, height: 900 });
     for (const dark of [false, true]) {

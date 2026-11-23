@@ -3,7 +3,7 @@ import { mkdirSync, readFileSync, writeFileSync } from 'node:fs';
 
 const folder = 'elements/orbit-theme-toggle';
 const switchIn = page => page.getByRole('switch', { name: 'Dark mode' });
-const pivot = page => page.locator('.orbit-theme-toggle-pivot');
+const pivot = page => switchIn(page).locator('.orbit-theme-toggle-pivot');
 
 // A separate Vite page verifies copied files without any gallery renderer or styles.
 test.beforeAll(() => {

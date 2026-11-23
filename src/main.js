@@ -1,4 +1,7 @@
 import collection from '../collection.json';
+import * as React from 'react';
+import { createRoot } from 'react-dom/client';
+import OrbitThemeToggle from '../elements/orbit-theme-toggle/OrbitThemeToggle.jsx';
 import * as html from './render/html.js';
 import * as react from './render/react.jsx';
 
@@ -235,16 +238,22 @@ function route() {
 }
 
 const theme = document.querySelector('#theme');
-const applyTheme = dark => {
+const themeRoot = createRoot(theme);
+const applyTheme = (dark, persist = true) => {
   document.documentElement.classList.toggle('dark', dark);
-  theme.setAttribute('aria-pressed', String(dark));
+  themeRoot.render(React.createElement(OrbitThemeToggle, {
+    isDark: dark,
+    onChange: applyTheme,
+    size: 44,
+    iconSize: 20,
+    orbitRadius: 28,
+    orbitAngle: 75,
+    duration: 600,
+    ariaLabel: 'Toggle site theme',
+  }));
+  if (persist) localStorage.setItem('theme', dark ? 'dark' : 'light');
 };
-applyTheme(localStorage.getItem('theme') === 'dark');
-theme.addEventListener('click', () => {
-  const dark = !document.documentElement.classList.contains('dark');
-  applyTheme(dark);
-  localStorage.setItem('theme', dark ? 'dark' : 'light');
-});
+applyTheme(localStorage.getItem('theme') === 'dark', false);
 
 addEventListener('hashchange', route);
 addEventListener('resize', revealCurrentElement);

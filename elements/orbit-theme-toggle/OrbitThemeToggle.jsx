@@ -75,6 +75,7 @@ function usePrefersReducedMotion() {
  * size / iconSize / orbitRadius: pixels; orbitAngle: degrees; duration: ms.
  * easing: CSS timing function; fade / keepUpright: motion options.
  * sunIcon / moonIcon: optional components receiving { size }.
+ * ariaLabel: accessible name; defaults to "Dark mode".
  * Set --accent, --toggle-bg and --toggle-border on an ancestor to theme it.
  * The switch reports state; the consuming app decides how to apply its theme.
  */
@@ -93,6 +94,7 @@ export default function OrbitThemeToggle({
   keepUpright = true,
   sunIcon: Sun = LucideSun,
   moonIcon: Moon = LucideMoon,
+  ariaLabel = 'Dark mode',
   className = '',
   style,
 }) {
@@ -119,7 +121,7 @@ export default function OrbitThemeToggle({
   );
 
   return (
-    <button type="button" role="switch" aria-checked={isDark} aria-label="Dark mode"
+    <button type="button" role="switch" aria-checked={isDark} aria-label={ariaLabel}
       onClick={toggle} className={`orbit-theme-toggle ${className}`.trim()}
       style={{
         '--orbit-theme-toggle-size': `${size}px`,

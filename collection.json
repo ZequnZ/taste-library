@@ -168,7 +168,7 @@
         "notes": [
           "Click the switch to try your settings. Hold active temporarily forces the dark state. Reduced motion skips animation.",
           "For controlled state, pass isDark and onChange. defaultDark sets the initial uncontrolled state; active overrides the preview state.",
-          "sunIcon and moonIcon accept components receiving { size }. Use className, style, or ancestor CSS variables --accent, --toggle-bg and --toggle-border for styling."
+          "sunIcon and moonIcon accept components receiving { size }; ariaLabel customizes the accessible name. Use className, style, or ancestor CSS variables --accent, --toggle-bg and --toggle-border for styling."
         ]
       },
       "origin": {

@@ -18,7 +18,8 @@ h1, h2, p { margin: 0; }
 .site-header { display: flex; align-items: center; justify-content: space-between; min-height: 64px; border-bottom: 1px solid var(--line); }
 .brand { font-weight: 600; text-decoration: none; }
 .header-actions { display: flex; align-items: center; gap: 8px; font-size: 13px; color: var(--muted); }
-.header-actions a, .header-actions button { display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px; border: 0; background: none; text-decoration: none; }
+.header-actions a { display: inline-flex; align-items: center; min-height: 44px; padding: 0 10px; text-decoration: none; }
+.header-actions .orbit-theme-toggle { display: block; --toggle-border: var(--line); --toggle-bg: var(--surface); color: var(--accent); }
 .header-actions :hover { color: var(--fg); }
 #app { padding: clamp(40px, 7vw, 80px) 0 80px; }
 
