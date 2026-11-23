@@ -1,0 +1,44 @@
+.orbit-theme-toggle {
+  position: relative;
+  display: inline-block;
+  box-sizing: border-box;
+  width: var(--orbit-theme-toggle-size, 72px);
+  height: var(--orbit-theme-toggle-size, 72px);
+  padding: 0;
+  border: 1px solid var(--toggle-border, var(--accent, #b88343));
+  border-radius: 50%;
+  background: var(--toggle-bg, transparent);
+  color: inherit;
+  font: inherit;
+  vertical-align: middle;
+  overflow: hidden;
+  cursor: pointer;
+  -webkit-tap-highlight-color: transparent;
+}
+.orbit-theme-toggle:focus-visible {
+  outline: 2px solid var(--accent, #b88343);
+  outline-offset: 3px;
+}
+.orbit-theme-toggle-pivot {
+  position: absolute;
+  left: 50%;
+  top: calc(50% + var(--orbit-theme-toggle-radius, 44px));
+  width: 0;
+  height: 0;
+  transform-origin: 0 0;
+  transition: transform var(--orbit-theme-toggle-duration, 800ms) var(--orbit-theme-toggle-easing, ease);
+}
+.orbit-theme-toggle-position { position: absolute; left: 0; top: 0; }
+.orbit-theme-toggle-icon {
+  position: absolute;
+  display: grid;
+  place-items: center;
+  width: var(--orbit-theme-toggle-icon-size, 32px);
+  height: var(--orbit-theme-toggle-icon-size, 32px);
+  transition: transform var(--orbit-theme-toggle-duration, 800ms) var(--orbit-theme-toggle-easing, ease),
+    opacity var(--orbit-theme-toggle-duration, 800ms) var(--orbit-theme-toggle-easing, ease);
+}
+.orbit-theme-toggle-icon svg { display: block; }
+@media (prefers-reduced-motion: reduce) {
+  .orbit-theme-toggle-pivot, .orbit-theme-toggle-icon { transition: none; }
+}

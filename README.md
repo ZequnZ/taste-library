@@ -1,6 +1,6 @@
 # Taste Library
 
-A personal collection of small interaction details. Each detail is copyable source: a self-contained HTML + CSS snippet today, React components soon.
+A personal collection of small interaction details. Each detail is copyable source: a self-contained HTML + CSS snippet or a React component with plain CSS.
 
 ## Run
 
@@ -11,7 +11,7 @@ npm install
 npm run dev
 ```
 
-Open http://127.0.0.1:4173. The gallery groups entries by family; hover or focus a card to play it. Each detail page (`#/<id>`) shows a large preview, a Hold active toggle, the exact source with Copy, and the font it needs.
+Open http://127.0.0.1:4173. The gallery groups entries by family; hover or focus a card to play it. Each detail page (`#/<id>`) shows a large preview, a Hold active toggle and the exact source with Copy. Multi-file entries have a Code file selector; copy each listed file. React previews also support their native click and keyboard interactions.
 
 ## Structure
 
@@ -20,7 +20,7 @@ llm.txt              agent index, served at /llm.txt
 collection.json      authoritative metadata: families, kinds, entries, origin
 elements/<id>/       one folder per entry, holding only that entry's files
 public/fonts/        Fredoka SemiBold and its licence
-src/                 gallery (main.js, style.css, render/<kind>.js)
+src/                 gallery (main.js, style.css, render/html.js and react.jsx)
 scripts/validate.mjs metadata and snippet rules
 tests/               Playwright browser tests
 ```
@@ -42,7 +42,7 @@ Each entry in `collection.json` has a `kind` and a `files` list. The first file 
 
 The gallery renders each snippet in a shadow root and adds an `.is-on` state for card hover and Hold active; the file you copy is unchanged.
 
-### React component (`"kind": "react"`, planned)
+### React component (`"kind": "react"`)
 
 ```
 elements/<id>/
@@ -50,12 +50,35 @@ elements/<id>/
   <ComponentName>.css   optional, imported by the component
 ```
 
-- Renders with no required props. An optional `active` boolean forces the active state, which the gallery uses for card hover and Hold active. Hover and focus still work without it.
+- Renders with no required props. An optional `active` boolean forces the preview state, which the gallery uses for card hover and Hold active. Without it, the component uses its native interaction. Releasing Hold restores its own state.
 - Styling is a plain CSS file with classes prefixed by the entry id (`.magnetic-button`, `.magnetic-button-dot`). No CSS Modules, Tailwind or CSS-in-JS, so the files drop into any React setup.
 - Imports only `react` and files in its own folder. Any other package needs approval and is listed in the entry's `dependencies` (`{ "motion": "^12.0.0" }`).
 - Honours `prefers-reduced-motion` in CSS and in any JavaScript-driven motion.
 
-The gallery cannot render React entries yet, and `npm run validate` rejects them until it can. Adding the first one also means adding `react` / `react-dom`, a `src/render/react.jsx` renderer, React validation rules and tests.
+The gallery lazy-loads compiled components through `src/render/react.jsx` and unmounts their React roots when navigating. Source files are still served and copied unchanged. React and React DOM are runtime dependencies; no icon or animation package is needed for the first entry.
+
+#### Orbit theme toggle
+
+The **Components** group starts with `orbit-theme-toggle`. Copy `OrbitThemeToggle.jsx` and `OrbitThemeToggle.css` into the same folder, then use `<OrbitThemeToggle />`. It manages local light/dark state, or accepts controlled `isDark` and `onChange` props. It reports the selected theme without changing your app's theme automatically. Optional props retain the exploration's sizing, orbit, duration, easing, cross-fade, upright icons and custom icon controls. Bundled icons retain Lucide ISC and Feather MIT notices in the JSX. The detail page includes a live prop playground; its controls and orbit guide remain separate from the reusable element.
+
+### React prop playgrounds
+
+Add an optional `playground` to a React entry in `collection.json`. The shared gallery renderer handles live controls, labelled prop names, reset to defaults, and a **Copy usage** example listing only changed props. The toolbar's **Copy** still copies the exact selected element source. Settings are temporary, survive Preview/Code switching and Hold active, and reset when leaving the detail page. No preferences are recorded.
+
+```json
+"playground": {
+  "controls": [
+    { "name": "size", "label": "Size", "type": "range", "default": 72, "min": 44, "max": 120, "step": 1, "unit": "px" },
+    { "name": "easing", "label": "Easing", "type": "select", "default": "linear", "options": [{ "label": "Linear", "value": "linear" }] },
+    { "name": "fade", "label": "Cross-fade", "type": "boolean", "default": true }
+  ],
+  "notes": ["Describe callback, component-valued or styling props here."]
+}
+```
+
+`name` is the component prop; defaults must match the component's defaults. Ranges use numbers, selects use string-valued options, and checkboxes use booleans. Every control updates the existing component without remounting it. Validation checks names, defaults, ranges and options. New ordinary playgrounds need only metadata, not a bespoke form.
+
+For a custom preview, add `src/playground/demos/<demo>.jsx` and set `playground.demo` to its basename. The adapter receives `{ Component, props, active, demo }`; `props` holds editable props and `demo` holds controls with `"scope": "demo"`. Demo-only values are excluded from both component props and usage. The orbit adapter adds a local light/dark label and an unclipped orbit guide without modifying the app theme or copied source. Keep adapters and controls in `src/`, not in the entry's `files` list. Add Playwright coverage for each new playground.
 
 ### Shared rules
 

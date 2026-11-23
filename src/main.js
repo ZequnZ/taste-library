@@ -1,10 +1,15 @@
 import collection from '../collection.json';
+import * as React from 'react';
+import { createRoot } from 'react-dom/client';
+import OrbitThemeToggle from '../elements/orbit-theme-toggle/OrbitThemeToggle.jsx';
 import * as html from './render/html.js';
+import * as react from './render/react.jsx';
 
 const app = document.querySelector('#app');
 const byId = new Map(collection.entries.map(entry => [entry.id, entry]));
-// One renderer per entry kind. React entries get a renderer when the first one is added.
-const renderers = { html };
+const renderers = { html, react };
+let routeVersion = 0;
+let cleanups = [];
 // Raw text of every element file, keyed by repository path, loaded on first use.
 const rawFiles = import.meta.glob('/elements/*/*', { query: '?raw', import: 'default' });
 const sources = new Map();
@@ -15,11 +20,15 @@ const renderer = id => {
   if (!renderers[kind]) throw new Error(`No gallery renderer for ${kind} entries yet: ${id}`);
   return renderers[kind];
 };
-const source = id => {
-  if (!sources.has(id)) sources.set(id, rawFiles[`/${byId.get(id).files[0]}`]());
-  return sources.get(id);
+const fileSource = file => {
+  if (!sources.has(file)) sources.set(file, rawFiles[`/${file}`]());
+  return sources.get(file);
 };
-const mount = async (host, id) => renderer(id).mount(host, await source(id));
+const source = id => fileSource(byId.get(id).files[0]);
+const mount = async (host, id) => {
+  const code = await source(id);
+  if (host.isConnected) await renderer(id).mount(host, code, byId.get(id));
+};
 const setOn = (host, id, on) => renderer(id).setOn(host, on);
 
 function gallery() {
@@ -28,7 +37,7 @@ function gallery() {
   app.innerHTML = `
     <header class="intro">
       <h1>Taste Library</h1>
-      <p>Small details worth keeping. Each one is a single HTML + CSS snippet, ready to copy.</p>
+      <p>Small details worth keeping. Copy an HTML + CSS snippet or a reusable React component.</p>
     </header>
     ${collection.families.map(family => {
       const entries = collection.entries.filter(entry => entry.family === family.id);
@@ -45,6 +54,7 @@ function gallery() {
     }).join('')}`;
   for (const card of app.querySelectorAll('.card')) {
     const host = card.querySelector('.preview');
+    host.dataset.renderEntry = card.dataset.entry;
     mount(host, card.dataset.entry);
     for (const [type, on] of [['pointerenter', true], ['pointerleave', false], ['focus', true], ['blur', false]]) {
       card.addEventListener(type, () => setOn(host, card.dataset.entry, on));
@@ -63,13 +73,15 @@ function revealCurrentElement() {
   }
 }
 
-async function detail(entry) {
+async function detail(entry, version) {
   document.title = `${entry.title} — Taste Library`;
   const family = collection.families.find(item => item.id === entry.family);
   const index = collection.entries.indexOf(entry);
   const prev = collection.entries.at(index - 1);
   const next = collection.entries[(index + 1) % collection.entries.length];
-  const code = await source(entry.id);
+  let selectedFile = entry.files[0];
+  let code = await source(entry.id);
+  if (version !== routeVersion) return;
   app.classList.add('has-detail');
   app.innerHTML = `
     <div class="detail-layout">
@@ -102,7 +114,7 @@ async function detail(entry) {
         <h1>${entry.title}</h1>
         <p>${entry.description}</p>
       </header>
-      <section class="workbench" aria-label="Preview and code">
+      <section class="workbench${entry.playground ? ' has-playground' : ''}" aria-label="Preview and code">
         <div class="toolbar">
           <div role="tablist" aria-label="View">
             <button type="button" role="tab" id="tab-preview" aria-controls="panel-preview" aria-selected="true">Preview</button>
@@ -115,15 +127,17 @@ async function detail(entry) {
         </div>
         <div role="tabpanel" id="panel-preview" aria-labelledby="tab-preview">
           <div class="stage stage-large"><span class="preview"></span></div>
+          ${entry.playground ? '<div data-playground-controls></div>' : ''}
         </div>
         <div role="tabpanel" id="panel-code" aria-labelledby="tab-code" hidden>
+          ${entry.files.length > 1 ? `<label class="source-file">Code file <select id="source-file">${entry.files.map(file => `<option value="${file}">${file.split('/').at(-1)}</option>`).join('')}</select></label>` : ''}
           <pre tabindex="0"><code id="source">${escape(code)}</code></pre>
         </div>
-        <p class="workbench-foot"><span id="hint">Hover or focus the word.</span><span>${code.length.toLocaleString('en')} bytes · ${collection.kinds.find(kind => kind.id === entry.kind).title}</span></p>
+        <p class="workbench-foot"><span id="hint">${entry.kind === 'react' ? 'Click the switch or press Space. Copy both JSX and CSS.' : 'Hover or focus the word.'}</span><span><span id="source-size">${new TextEncoder().encode(code).length.toLocaleString('en')}</span> bytes · ${collection.kinds.find(kind => kind.id === entry.kind).title}</span></p>
       </section>
       <p id="copy-status" class="status" role="status"></p>
       <footer class="detail-foot">
-        <p>Related: ${entry.related.map(id => `<a href="#/${id}">${byId.get(id).title}</a>`).join(' · ')}</p>
+        ${entry.related.length ? `<p>Related: ${entry.related.map(id => `<a href="#/${id}">${byId.get(id).title}</a>`).join(' · ')}</p>` : ''}
         <nav aria-label="Browse details"><a href="#/${prev.id}">← ${prev.title}</a><a href="#/${next.id}">${next.title} →</a></nav>
       </footer>
     </article>
@@ -141,6 +155,7 @@ async function detail(entry) {
   const syncNav = () => setNavOpen(false);
   syncNav();
   narrowNav.addEventListener('change', syncNav);
+  cleanups.push(() => narrowNav.removeEventListener('change', syncNav));
   navToggle.addEventListener('click', () => setNavOpen(navToggle.getAttribute('aria-expanded') !== 'true'));
   for (const toggle of app.querySelectorAll('.element-group-toggle')) {
     toggle.addEventListener('click', () => {
@@ -155,7 +170,20 @@ async function detail(entry) {
   };
   requestAnimationFrame(revealCurrentElement);
   const host = app.querySelector('.preview');
+  host.dataset.renderEntry = entry.id;
   await mount(host, entry.id);
+  if (version !== routeVersion) return;
+  const fileSelect = app.querySelector('#source-file');
+  fileSelect?.addEventListener('change', async () => {
+    const file = fileSelect.value;
+    const text = await fileSource(file);
+    if (version !== routeVersion || fileSelect.value !== file) return;
+    selectedFile = file;
+    code = text;
+    app.querySelector('#source').textContent = code;
+    app.querySelector('#source-size').textContent = new TextEncoder().encode(code).length.toLocaleString('en');
+    app.querySelector('#copy-status').textContent = '';
+  });
   const tabs = [...app.querySelectorAll('[role="tab"]')];
   const hint = app.querySelector('#hint');
   const select = tab => {
@@ -186,9 +214,10 @@ async function detail(entry) {
   });
   app.querySelector('#copy').addEventListener('click', async () => {
     const status = app.querySelector('#copy-status');
+    const file = fileSelect?.value ?? selectedFile;
     try {
-      await navigator.clipboard.writeText(code);
-      status.textContent = 'Copied to clipboard.';
+      await navigator.clipboard.writeText(await fileSource(file));
+      status.textContent = entry.files.length > 1 ? `Copied ${file.split('/').at(-1)} to clipboard.` : 'Copied to clipboard.';
     } catch {
       status.textContent = 'Clipboard unavailable. Select the code above to copy it.';
     }
@@ -196,23 +225,35 @@ async function detail(entry) {
 }
 
 function route() {
+  const version = ++routeVersion;
+  for (const cleanup of cleanups) cleanup();
+  cleanups = [];
+  app.onkeydown = null;
+  for (const host of app.querySelectorAll('.preview[data-render-entry]')) renderer(host.dataset.renderEntry).unmount?.(host);
+  app.innerHTML = '';
   const entry = byId.get(location.hash.replace(/^#\/?/, ''));
-  if (entry) detail(entry);
+  if (entry) detail(entry, version);
   else gallery();
   scrollTo(0, 0);
 }
 
 const theme = document.querySelector('#theme');
-const applyTheme = dark => {
+const themeRoot = createRoot(theme);
+const applyTheme = (dark, persist = true) => {
   document.documentElement.classList.toggle('dark', dark);
-  theme.setAttribute('aria-pressed', String(dark));
+  themeRoot.render(React.createElement(OrbitThemeToggle, {
+    isDark: dark,
+    onChange: applyTheme,
+    size: 44,
+    iconSize: 20,
+    orbitRadius: 28,
+    orbitAngle: 75,
+    duration: 600,
+    ariaLabel: 'Toggle site theme',
+  }));
+  if (persist) localStorage.setItem('theme', dark ? 'dark' : 'light');
 };
-applyTheme(localStorage.getItem('theme') === 'dark');
-theme.addEventListener('click', () => {
-  const dark = !document.documentElement.classList.contains('dark');
-  applyTheme(dark);
-  localStorage.setItem('theme', dark ? 'dark' : 'light');
-});
+applyTheme(localStorage.getItem('theme') === 'dark', false);
 
 addEventListener('hashchange', route);
 addEventListener('resize', revealCurrentElement);
